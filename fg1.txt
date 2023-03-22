@@ -1,0 +1,100 @@
+Lần lặp1
+Kết quả trên tập huấn luyện bằng = 
+              precision    recall  f1-score   support
+
+      Female    0.93407   0.93407   0.93407        91
+        Male    0.93023   0.93023   0.93023        86
+
+    accuracy                        0.93220       177
+   macro avg    0.93215   0.93215   0.93215       177
+weighted avg    0.93220   0.93220   0.93220       177
+
+              precision    recall  f1-score   support
+
+      Female    0.86667   0.56522   0.68421        23
+        Male    0.66667   0.90909   0.76923        22
+
+    accuracy                        0.73333        45
+   macro avg    0.76667   0.73715   0.72672        45
+weighted avg    0.76889   0.73333   0.72578        45
+
+Lần lặp2
+Kết quả trên tập huấn luyện bằng = 
+              precision    recall  f1-score   support
+
+      Female    0.89691   0.95604   0.92553        91
+        Male    0.95000   0.88372   0.91566        86
+
+    accuracy                        0.92090       177
+   macro avg    0.92345   0.91988   0.92060       177
+weighted avg    0.92270   0.92090   0.92074       177
+
+              precision    recall  f1-score   support
+
+      Female    0.85714   0.52174   0.64865        23
+        Male    0.64516   0.90909   0.75472        22
+
+    accuracy                        0.71111        45
+   macro avg    0.75115   0.71542   0.70168        45
+weighted avg    0.75351   0.71111   0.70050        45
+
+Lần lặp3
+Kết quả trên tập huấn luyện bằng = 
+              precision    recall  f1-score   support
+
+      Female    0.93478   0.94505   0.93989        91
+        Male    0.94186   0.93103   0.93642        87
+
+    accuracy                        0.93820       178
+   macro avg    0.93832   0.93804   0.93815       178
+weighted avg    0.93824   0.93820   0.93819       178
+
+              precision    recall  f1-score   support
+
+      Female    0.62500   0.86957   0.72727        23
+        Male    0.75000   0.42857   0.54545        21
+
+    accuracy                        0.65909        44
+   macro avg    0.68750   0.64907   0.63636        44
+weighted avg    0.68466   0.65909   0.64050        44
+
+Lần lặp4
+Kết quả trên tập huấn luyện bằng = 
+              precision    recall  f1-score   support
+
+      Female    0.95604   0.95604   0.95604        91
+        Male    0.95402   0.95402   0.95402        87
+
+    accuracy                        0.95506       178
+   macro avg    0.95503   0.95503   0.95503       178
+weighted avg    0.95506   0.95506   0.95506       178
+
+              precision    recall  f1-score   support
+
+      Female    0.61290   0.82609   0.70370        23
+        Male    0.69231   0.42857   0.52941        21
+
+    accuracy                        0.63636        44
+   macro avg    0.65261   0.62733   0.61656        44
+weighted avg    0.65080   0.63636   0.62052        44
+
+Lần lặp5
+Kết quả trên tập huấn luyện bằng = 
+              precision    recall  f1-score   support
+
+      Female    0.93478   0.93478   0.93478        92
+        Male    0.93023   0.93023   0.93023        86
+
+    accuracy                        0.93258       178
+   macro avg    0.93251   0.93251   0.93251       178
+weighted avg    0.93258   0.93258   0.93258       178
+
+              precision    recall  f1-score   support
+
+      Female    0.60000   0.54545   0.57143        22
+        Male    0.58333   0.63636   0.60870        22
+
+    accuracy                        0.59091        44
+   macro avg    0.59167   0.59091   0.59006        44
+weighted avg    0.59167   0.59091   0.59006        44
+
