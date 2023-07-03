@@ -1,5 +1,6 @@
 <h6 align="right">Author: <a href="https://github.com/toandokhanh">Do Khanh Toan<a/> </h6>
-<h2 align="center">Gender Classification and Noise Removal for Dubbed Videos</h2>
+  
+# Gender Classification and Noise Removal for Dubbed Videos
 
 Gender classification based on voice is a crucial area of research with applications in various fields from speech recognition to filmmaking. In the film industry, having both female and male voices in dubbed movies provides a more diverse experience for the audience. However, noise can cause errors in speech recognition software which generates subtitles for audio or video content.
 
