@@ -6,3 +6,19 @@ wav
 wav_google
 docx_to_txt.py
 archive
+
+# Local configuration and generated artifacts
+.env
+.env.*
+!.env.example
+!.env.*.example
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
+.venv/
+venv/
+node_modules/
+*.log
+storage/upload-owners/

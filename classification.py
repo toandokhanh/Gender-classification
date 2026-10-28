@@ -48,25 +48,25 @@ def custom_database_import(in_path):
     index_list = [f for f in os.listdir(in_path) if f.endswith('.wav')]
     in_all_audios = []
     in_y = []
-    
+
     # Duyệt qua danh sách các tệp âm thanh
     for filename in index_list:
 #       print(filename)
         full_path = os.path.join(in_path, filename)
         rate, data = scipy.io.wavfile.read(full_path, mmap=False)
         in_all_audios.append((rate, data))
-        
+
         # Trích xuất nhãn từ tên tệp và thêm vào danh sách
-#       label = filename.split("_")[0] 
+#       label = filename.split("_")[0]
         name_parts = filename.split("_")  # tách chuỗi theo dấu gạch dưới
         label = name_parts[0]
 #         print('label')
         # print(label)
         in_y.append(label)
-    
+
     # Chuyển danh sách nhãn thành một mảng numpy
     out_y = np.array(in_y)
-    
+
     # Trả về danh sách các tệp âm thanh và mảng numpy chứa các nhãn tương ứng
     return in_all_audios, out_y
 
@@ -110,11 +110,11 @@ def custom_preprocess(in_all_audios):
     for i in range(0, len(all_normalized_audios)):
         freq = np.abs(np.fft.fft(all_normalized_audios[i]))
         frequency_preprocessed.append(freq[:freq.shape[0]//2])
-    
+
     #update 2/4/2023
     # mỗi mẫu âm thanh sẽ được chia thành in_flag phần bằng nhau
-    # Các giá trị trong single_sample_processed được sử dụng để biểu diễn thông tin tần số trung bình của mỗi mẫu âm thanh đầu vào. 
-    # Việc sử dụng biến in_flag giúp tăng độ chính xác của thông tin tần số trung bình tính được, 
+    # Các giá trị trong single_sample_processed được sử dụng để biểu diễn thông tin tần số trung bình của mỗi mẫu âm thanh đầu vào.
+    # Việc sử dụng biến in_flag giúp tăng độ chính xác của thông tin tần số trung bình tính được,
     # do mỗi phần tử của mẫu âm thanh sẽ được chia thành nhiều phần hơn để tính trung bình
     in_flag = 256
     for i in range(0, len(frequency_preprocessed)):
@@ -131,7 +131,7 @@ def custom_preprocess(in_all_audios):
 
 
 
-# Đường dẩn đến thư mục chứa file audio 
+# Đường dẩn đến thư mục chứa file audio
 # all_test_audios, y = custom_database_import("wav")
 # X = np.array(custom_preprocess(all_test_audios))
 # update 4/2/2023
@@ -141,7 +141,7 @@ X = np.array(custom_preprocess(all_test_audios))
 
 
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 hyp_parameters = {
     'random_state': [0],
     'n_estimators': [100, 1000],
@@ -174,11 +174,12 @@ skf.get_n_splits(X,y)
 print(X.shape)
 i=1
 # file_name = 'result/fg1.txt'
-# f_log = open(file_name,"w",encoding="utf-8") 
+# f_log = open(file_name,"w",encoding="utf-8")
 # update 4/2/2023 at 80s icafe
 # file_name = args.result_file
 # f_log = open(file_name,"w",encoding="utf-8")
 file_txt = strftime("%Y-%m-%d_%Hg%Mp%Ss.txt", gmtime())
+os.makedirs(args.result_file, exist_ok=True)
 full_path_txt = os.path.join(args.result_file, file_txt)
 f_log = open(full_path_txt, "w", encoding="utf-8")
 
@@ -190,11 +191,11 @@ for train_index, test_index, in skf.split(X,y):
 
     y_train_pred =logistic_cl.predict(X_train)
     print('Kết quả trên tập huấn luyện bằng = ' , file = f_log)
-    print(classification_report(y_train, y_train_pred , digits=5), file = f_log) 
+    print(classification_report(y_train, y_train_pred , digits=5), file = f_log)
 
     print('Kết quả logistic_cl tập Test = ', file = f_log)
     y_test_pred = logistic_cl.predict(X_test)
-    print(classification_report(y_test, y_test_pred, digits=5 ), file = f_log)  
+    print(classification_report(y_test, y_test_pred, digits=5 ), file = f_log)
     cm = confusion_matrix(y_test, y_test_pred)
     print(cm)
     plt.matshow(cm)

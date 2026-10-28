@@ -2,11 +2,11 @@
 # coding: utf-8
 
 # # AUDIO CLASSIFICATION BEGINNER TUTORIAL
-# 
+#
 # Welcome!
-# 
+#
 # In this notebook we will build a complete data analytics pipeline to pre-process audio signals and build a classification model able to distinguish between the classes available in the dataset. More specifically, we will load, analyze and prepare the Free Spoken Digit dataset to train and validate a classification model.
-# 
+#
 # About the dataset:
 # The dataset for this notebook has been inspired by the Free Spoken Digit Dataset.
 # It is composed of 2,000 recordings of numbers from 0 to 9 with english pronunciation by 4 speakers.
@@ -16,10 +16,10 @@
 # The data has been distributed uniformly in two separate collections:
 # - Development (dev): a collection composed of 1500 recordings with the ground-truth labels. This collection of data has to be used during the development of the classification model. Each file in this portion of the dataset is a recording named with the following format <Id>_<Label>.wav.
 # - Evaluation (eval): a collection composed of 500 recordings without the labels. This collection of data has to be used to produce the submission file containing the labels predicted for each evaluation recording, exploiting the previously built model. Each file in this portion of the dataset is a recording named with the following format <Id>.wav.
-# 
+#
 
 # Setup 1 of 2
-# 
+#
 # Let's import first the libraries we will use.
 
 # In[24]:
@@ -50,14 +50,14 @@ warnings.warn("deprecated", DeprecationWarning)
 
 
 # Setup 2 of 2
-# 
+#
 # First of all it is better to define two distinct functions to load the data from the input folder, one for the development part of the dataset, one for the evaluation part. Since the labels for the development files are encoded in the name of each recording we will have to retrieve and store that information.
-# 
+#
 # In these functions we can use the wavfile package from scipy.io to read the wav audio files.
 # Loading the data exploiting the wavfile.read() function gives us two main information:
 # - The sampling rate of the signal (in samples/sec)
 # - The array with the amplitudes of the signal recorded for each sample
-# 
+#
 # Furthermore we'll define a function for generating the submission file (in case of competition) and a funtion for pre-process the files with three minimal stages in our case:
 # - Normalization
 # - Frequency domain transformation
@@ -71,32 +71,32 @@ warnings.warn("deprecated", DeprecationWarning)
 def custom_database_import(in_path):
     # Lấy danh sách các tệp âm thanh trong thư mục đầu vào có đuôi .wav
     index_list = [f for f in os.listdir(in_path) if f.endswith('.wav')]
-    
+
     # Khởi tạo danh sách để chứa các tệp âm thanh và nhãn tương ứng
     in_all_audios = []
     in_y = []
-    
+
     # Duyệt qua danh sách các tệp âm thanh
     for filename in index_list:
 #         print(filename)
         # Xây dựng đường dẫn đầy đủ đến tệp âm thanh hiện tại
         full_path = os.path.join(in_path, filename)
-        
+
         # Đọc tệp âm thanh hiện tại và thêm vào danh sách
         rate, data = scipy.io.wavfile.read(full_path, mmap=False)
         in_all_audios.append((rate, data))
-        
+
         # Trích xuất nhãn từ tên tệp và thêm vào danh sách
-#         label = filename.split("_")[0] 
+#         label = filename.split("_")[0]
         name_parts = filename.split("_")  # tách chuỗi theo dấu gạch dưới
         label = name_parts[0]
 #         print('label')
         print(label)
         in_y.append(label)
-    
+
     # Chuyển danh sách nhãn thành một mảng numpy
     out_y = np.array(in_y)
-    
+
     # Trả về danh sách các tệp âm thanh và mảng numpy chứa các nhãn tương ứng
     return in_all_audios, out_y
 
@@ -144,7 +144,7 @@ def custom_preprocess(in_all_audios):
         freq = np.abs(np.fft.fft(all_normalized_audios[i]))
         frequency_preprocessed.append(freq[:freq.shape[0]//2])
 
-  
+
 
 
 
@@ -429,7 +429,7 @@ def custom_preprocess(in_all_audios):
 # In[26]:
 
 
-all_test_audios, y = custom_database_import("D:\Work\CTU\CT252 - Nien luan co so nganh\Voice_gender\wav")
+all_test_audios, y = custom_database_import(os.environ.get('AUDIO_DATA_DIR', 'data/audio'))
 # dulieu cua file audio
 X = np.array(custom_preprocess(all_test_audios))
 
@@ -443,7 +443,7 @@ X = np.array(custom_preprocess(all_test_audios))
 # We now split the development dataset in test and training in order to tune our model's hyperparameters and check their scores. In this notebook we'll use two simple models:
 # - RandomForest Classifier
 # - MLP Classifier
-# 
+#
 # The ParameterGrid cycle will print the score only if it is better than the last best score, the first is always printed.
 
 # In[41]:
@@ -493,7 +493,7 @@ for config in ParameterGrid(hyp_parameters):
 # In[42]:
 
 
-# from sklearn import linear_model 
+# from sklearn import linear_model
 # regr = linear_model.LinearRegression()
 # #khau bao mo hinh de huan luyen tren tap test
 # regr.fit(X_test, y_test)
@@ -535,15 +535,15 @@ for config in ParameterGrid(hyp_parameters):
 
 
 # Finally, after importing the evaluation dataset, we train our models again with the best hyperparameters configurations found but this time on the entire dataset, then we can proceed to classify the evaluation dataset.
-# 
+#
 # RandomForest:
-# 
+#
 # Analizing config 2 of 12 || Config: {'max_depth': None, 'max_features': 'auto', 'n_estimators': 1000, 'random_state': 0}
 # -----> Score: 0.9335100125387632
-# 
-# 
+#
+#
 # MLP:
-# 
+#
 # Analizing config 12 of 12 || Config: {'activation': 'relu', 'alpha': 0.001, 'hidden_layer_sizes': 1000, 'random_state': 0}
 # -----> Score: 0.9660739092226359
 
@@ -561,7 +561,7 @@ skf.get_n_splits(X,y)
 print(X.shape)
 i=1
 file_name = 'fg1.txt'
-f_log = open(file_name,"w",encoding="utf-8") 
+f_log = open(file_name,"w",encoding="utf-8")
 
 for train_index, test_index, in skf.split(X,y):
     X_train, X_test = X[train_index], X[test_index]
@@ -571,11 +571,11 @@ for train_index, test_index, in skf.split(X,y):
 
     y_train_pred =logistic_cl.predict(X_train)
     print('Kết quả trên tập huấn luyện bằng = ' , file = f_log)
-    print(classification_report(y_train, y_train_pred , digits=5), file = f_log) 
+    print(classification_report(y_train, y_train_pred , digits=5), file = f_log)
 
     print('Kết quả logistic_cl tập Test = ')
     y_test_pred = logistic_cl.predict(X_test)
-    print(classification_report(y_test, y_test_pred, digits=5 ), file = f_log)  
+    print(classification_report(y_test, y_test_pred, digits=5 ), file = f_log)
     cm = confusion_matrix(y_test, y_test_pred)
     print(cm)
     plt.matshow(cm)
@@ -595,7 +595,7 @@ f_log.close()
 #all_eval_audios = custom_eval_database_import("../input/eval/")
 from sklearn.metrics import classification_report
 # all_eval_audios , y_eval = custom_eval_database_import(".\\dev\\eval\\")
-all_eval_audios, y_eval = custom_database_import("D:\Work\CTU\CT252 - Nien luan co so nganh\Voice_gender\wav\eval")
+all_eval_audios, y_eval = custom_database_import(os.environ.get('AUDIO_EVAL_DIR', 'data/eval'))
 
 X_eval  = np.array(custom_preprocess(all_eval_audios))
 
@@ -609,7 +609,7 @@ MLP_y_final_pred = MLP_clf.predict(X_eval)
 # print(X.shape)
 # print(y.shape)
 # print(MLP_y_final_pred.shape)
-# label = filename.split("_")[1] 
+# label = filename.split("_")[1]
 print(classification_report(y_eval, MLP_y_final_pred))
 result = str(MLP_y_final_pred) # Convert MLP_y_final_pred to a string using the str() function
 print("Kết quả của " + str(y_eval) +" là "+ result)
@@ -619,9 +619,9 @@ custom_csv_print(MLP_y_final_pred, 'MLP_out')
 
 
 # This conclude the basic audio classification exercise. Better score can be achieved through a better preprocessing, choice of classification algorithm and hyperparameter tuning.
-# 
+#
 # Hope you find this notebook helpful and if you do please upvote :)
-# 
+#
 # Alberto
 
 # In[ ]:
